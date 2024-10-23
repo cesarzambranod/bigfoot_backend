@@ -10,7 +10,7 @@ dotenv.config()
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-export const AppDataSource = new DataSource({
+export const dataSource = new DataSource({
   type: "mysql",
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || "3306"),
@@ -24,4 +24,4 @@ export const AppDataSource = new DataSource({
   subscribers: [],
 })
 
-export default AppDataSource
+export default dataSource

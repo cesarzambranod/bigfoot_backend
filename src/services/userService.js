@@ -1,10 +1,10 @@
-import AppDataSource  from '../config/typeorm.config.js';
+import dataSource  from '../config/typeorm.config.js';
 import { User } from '../entities/User.js';
 import bcrypt from 'bcryptjs';
 
 class UserService {
     constructor() {
-        this.userRepository = AppDataSource.getRepository(User);
+        this.userRepository = dataSource.getRepository(User);
     }
 
     async createUser(userData) {
@@ -48,4 +48,4 @@ class UserService {
     }
 }
 
-export default UserService;
+export default new UserService();

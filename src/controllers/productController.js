@@ -1,18 +1,24 @@
 import ProductService from '../services/productService.js';
 import { ProductSchema } from '../validation/productValidation.js';
-
+import { errors } from '@vinejs/vine'
 class ProductController {
-    
     async create(req, res) {
-        const validation = ProductSchema.validate(req.body);
-
-        if (validation.hasErrors()) {
-            return res.status(400).json(validation.errors());
-        }
-
+    try {
+        await ProductSchema.validate(req.body);
         const product = await ProductService.createProduct(req.body);
         return res.status(201).json(product);
+    } catch (error) {
+        let errormessage = 'Internal Server Error'
+        if (error instanceof errors.E_VALIDATION_ERROR) {
+            errormessage = error.messages
+        }
+        console.log('errormessage', errormessage)
+        return res.status(400).json({
+            message: errormessage,
+            error: error.message,
+        });
     }
+}
 
     async index(req, res) {
         const product = await ProductService.indexProduct(req.params.id);
@@ -20,7 +26,7 @@ class ProductController {
         return res.status(200).json(product);
     }
 
-    async show(){
+    async show(req, res){
         const product = await ProductService.showProduct();
         return res.status(200).json(product);
     }

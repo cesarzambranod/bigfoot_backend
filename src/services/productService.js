@@ -1,24 +1,36 @@
-import Product from '../models/product.js';
+import dataSource  from '../config/typeorm.config.js';
+import Product from '../entities/Product.js';
 
 class ProductService {
+    constructor() {
+        this.productRepository = dataSource.getRepository(Product);
+    }
     async createProduct(productData) {
-        return Product.create(productData);
+        return await this.productRepository.save(productData);
     }
 
     async indexProduct(id) {
-        return Product.findByPk(id);
+        return await this.productRepository.findOneBy({ id: id });
     }
 
     async deleteProduct(id) {
-        return Product.destroy({ where: { id } });
+        const product = await this.indexProduct(id);
+        if (!product) {
+            throw new Error('Product not found');
+        }
+        return await this.productRepository.softRemove(product);
     }
 
     async showProduct() {
-        return Product.findAll();
+        return await this.productRepository.find();
     }
 
     async updateProduct(id, productData) {
-        return Product.update(productData, { where: { id } });
+        const product = await this.indexProduct(id);
+        if (!product) {
+            throw new Error('Product not found');
+        }
+        return await this.productRepository.save({ ...product, ...productData });
     }
 }
 
