@@ -2,6 +2,7 @@ import ProductService from '../services/productService.js';
 import { ProductSchema } from '../validation/productValidation.js';
 
 class ProductController {
+    
     async create(req, res) {
         const validation = ProductSchema.validate(req.body);
 
