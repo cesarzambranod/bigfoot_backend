@@ -5,15 +5,15 @@ class ProductService {
     constructor() {
         this.productRepository = dataSource.getRepository(Product);
     }
-    async createProduct(productData) {
+    async create(productData) {
         return await this.productRepository.save(productData);
     }
 
-    async indexProduct(id) {
+    async index(id) {
         return await this.productRepository.findOneBy({ id: id });
     }
 
-    async deleteProduct(id) {
+    async delete(id) {
         const product = await this.indexProduct(id);
         if (!product) {
             throw new Error('Product not found');
@@ -21,11 +21,11 @@ class ProductService {
         return await this.productRepository.softRemove(product);
     }
 
-    async showProduct() {
+    async show() {
         return await this.productRepository.find();
     }
 
-    async updateProduct(id, productData) {
+    async update(id, productData) {
         const product = await this.indexProduct(id);
         if (!product) {
             throw new Error('Product not found');

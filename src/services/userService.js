@@ -7,7 +7,7 @@ class UserService {
         this.userRepository = dataSource.getRepository(User);
     }
 
-    async createUser(userData) {
+    async create(userData) {
         const hashedPassword = await bcrypt.hash(userData.password, 10);
         const newUser = {
             username: userData.username,
@@ -20,14 +20,14 @@ class UserService {
         return await this.userRepository.save(newUser);
     }
 
-    async getUserById(id) {
+    async getById(id) {
         return await this.userRepository.findOneBy({
             id: id,
         });
     }
 
-    async updateUser(id, userData) {
-        const user = await this.getUserById(id);
+    async update(id, userData) {
+        const user = await this.getById(id);
         if (!user) {
             throw new Error('User not found');
         }
@@ -35,7 +35,7 @@ class UserService {
         return await this.userRepository.save(user);
     }
 
-    async deleteUser(id) {
+    async delete(id) {
         const user = await this.getUserById(id);
         if (!user) {
             throw new Error('User not found');
@@ -43,7 +43,7 @@ class UserService {
         return await this.userRepository.softRemove(user);
     }
 
-    async getAllUsers() {
+    async show() {
         return await this.userRepository.find();
     }
 }

@@ -1,6 +1,6 @@
 import vine from '@vinejs/vine';
 
-const userSchema = vine.compile(vine.object({
+const UserSchema = vine.compile(vine.object({
     username: vine.string().minLength(3).maxLength(30),
     email: vine.string().email(),
     password_hash: vine.string().minLength(8),
@@ -9,4 +9,4 @@ const userSchema = vine.compile(vine.object({
     is_active: vine.boolean().optional(),
 }));
 
-export { userSchema };
+export { UserSchema };
