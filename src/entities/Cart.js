@@ -1,6 +1,6 @@
 import { EntitySchema } from "typeorm";
 
-export const Cart = new EntitySchema({
+const Cart = new EntitySchema({
   name: "Cart",
   tableName: "carts",
   columns: {

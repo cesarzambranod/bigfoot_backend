@@ -2,6 +2,7 @@ import express from 'express';
 import userRoutes from './routes/user.routes.js';
 import productRoutes from './routes/product.routes.js';
 import cartRoutes from './routes/cart.routes.js';
+import orderRoutes from './routes/order.routes.js';
 import dataSource from './config/typeorm.config.js';
 import dotenv from 'dotenv';
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use('/users', userRoutes);
 app.use('/products', productRoutes);
 app.use('/carts', cartRoutes);
+app.use('/orders', orderRoutes);
 
 
 const startServer = async () => {

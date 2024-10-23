@@ -1,6 +1,6 @@
 import { EntitySchema } from "typeorm";
 
-export const Order = new EntitySchema({
+const Order = new EntitySchema({
   name: "Order",
   tableName: "orders",
   columns: {
@@ -50,3 +50,4 @@ export const Order = new EntitySchema({
     },
   },
 });
+export default Order;

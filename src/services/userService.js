@@ -1,5 +1,5 @@
 import dataSource  from '../config/typeorm.config.js';
-import { User } from '../entities/User.js';
+import User  from '../entities/User.js';
 import bcrypt from 'bcryptjs';
 
 class UserService {
