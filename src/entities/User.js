@@ -11,11 +11,13 @@ export const User = new EntitySchema({
     },
     username: {
       type: "varchar",
-      length: 30
+      length: 30,
+      unique: true,
     },
     email: {
       type: "varchar",
-      length: 70
+      length: 70,
+      unique: true,
     },
     password_hash: {
       type: "varchar",

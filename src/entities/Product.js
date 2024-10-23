@@ -11,7 +11,8 @@ const Product = new EntitySchema({
     },
     name: {
       type: "varchar",
-      length: 50
+      length: 50,
+      unique: true,
     },
     description: {
       type: "text"
