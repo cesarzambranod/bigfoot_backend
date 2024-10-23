@@ -1,27 +1,32 @@
-import { DataSource } from "typeorm"
-import { fileURLToPath } from 'url'
-import { dirname, join } from 'path'
-import dotenv from 'dotenv'
+import { DataSource } from "typeorm";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+import dotenv from "dotenv";
 
-// Load environment variables
-dotenv.config()
+// Cargar las variables de entorno
+dotenv.config();
 
-// ES module equivalent of __dirname
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+// Equivalente de ES module a __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-export const dataSource = new DataSource({
+// Crear la instancia de DataSource
+const dataSource = new DataSource({
   type: "mysql",
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || "3306"),
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  synchronize: process.env.NODE_ENV !== 'production',
-  logging: process.env.NODE_ENV !== 'production',
+  // Cambiado synchronize a false para migraciones manuales
+  synchronize: false,
+  // Solo habilitar logging en desarrollo
+  logging: process.env.NODE_ENV !== "production",
+  // Asegurarse de que las rutas son correctas para JS
   entities: [join(__dirname, "..", "entities", "*.js")],
   migrations: [join(__dirname, "..", "migrations", "*.js")],
   subscribers: [],
-})
+});
 
-export default dataSource
+// Exportar como exportación por defecto
+export default dataSource;
