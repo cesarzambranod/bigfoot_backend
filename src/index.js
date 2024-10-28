@@ -15,19 +15,30 @@ app.use('/users', userRoutes);
 app.use('/products', productRoutes);
 app.use('/carts', cartRoutes);
 app.use('/orders', orderRoutes);
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send({ message: 'Internal Server Error' });
+});
 
 
-const startServer = async () => {
+export const startServer = async () => {
   await dataSource.initialize()
-  .then(() => {
-      console.log("Data Source has been initialized!")
-  })
-  .catch((err) => {
-      console.error("Error during Data Source initialization", err)
-  })
-  app.listen(process.env.PORT || 3000, () => {
+    .then(() => {
+      console.log("Data Source has been initialized!");
+    })
+    .catch((err) => {
+      console.error("Error during Data Source initialization", err);
+    });
+  
+  const server = app.listen(process.env.PORT || 3000, () => {
     console.log(`Server running on port ${process.env.PORT || 3000}`);
   });
+  
+  return server;
 };
 
-startServer().catch((error) => console.error(error));
+if (process.env.NODE_ENV !== 'test') {
+  startServer().catch((error) => console.error(error));
+}
+
+export default app;

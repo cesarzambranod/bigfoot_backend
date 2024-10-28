@@ -1,16 +1,27 @@
 import UserService from '../services/userService.js';
 import { UserSchema } from '../validation/userValidation.js';
+import { errors } from '@vinejs/vine'
+
 
 class UserController {
     async create(req, res) {
-        const validation = UserSchema.validate(req.body);
-
-        if (validation.hasErrors()) {
-            return res.status(400).json(validation.errors());
+        try {
+            await UserSchema.validate(req.body);
+            const user = await UserService.create(req.body);
+            return res.status(201).json(user);
+        } catch (error) {
+            let errormessage = 'Internal Server Error'
+            if (error instanceof errors.E_VALIDATION_ERROR) {
+                errormessage = error.messages
+            }
+            console.log('errormessage', errormessage)
+            return res.status(400).json({
+                message: errormessage,
+                error: error.message,
+            });
         }
+        
 
-        const user = await UserService.create(req.body);
-        return res.status(201).json(user);
     }
 
     async getById(req, res) {
