@@ -1,8 +1,7 @@
-import {expect , use, request} from 'chai';
+import { expect, use } from 'chai';
 import chaiHttp from 'chai-http';
 import app, { startServer } from '../src/index.js';
-import  dataSource  from '../src/config/typeorm.config.js';
-
+import dataSource from '../src/config/typeorm.config.js';
 
 use(chaiHttp);
 
@@ -26,7 +25,7 @@ describe('User API', () => {
         password: '123456',
       };
 
-      request(app)
+      chai.request(app)
         .post('/users')
         .send(user)
         .end((err, res) => {

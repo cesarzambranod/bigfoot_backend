@@ -38,6 +38,6 @@ npm run dev
 
 ## Run test 🧪
 ```bash
-npm run dev
+npm run test
 ```
 
