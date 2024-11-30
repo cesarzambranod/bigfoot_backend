@@ -16,7 +16,7 @@ class UserService {
             };
             await this.userRepository.save(newUser);
         }catch(err){
-            throw new Error(err.message);
+            throw new Error(err);
         }
     }
 
