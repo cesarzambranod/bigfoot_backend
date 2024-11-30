@@ -3,7 +3,7 @@ CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(70) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
-  `email_verified`  tinyint NOT NULL DEFAULT '0' ,
+  `email_verified`  tinyint DEFAULT '0' ,
   `verfication_token` varchar(255) NULL,
   `created_at` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updated_at` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),

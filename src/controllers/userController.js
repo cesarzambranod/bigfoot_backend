@@ -3,14 +3,16 @@ import { UserSchema } from '../validation/userValidation.js';
 
 class UserController {
     async create(req, res) {
-        const validation = UserSchema.validate(req.body);
-
-        if (validation.hasErrors()) {
-            return res.status(400).json(validation.errors());
+        try{
+            await UserSchema.validate(req.body);
+            await UserService.create(req.body);
+            return res.status(201).json('User created');
         }
-
-        const user = await UserService.create(req.body);
-        return res.status(201).json(user);
+        catch(error){
+            return res.status(400).json({
+                error: error.messages,
+            });
+        }
     }
 
     async getById(req, res) {

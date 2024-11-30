@@ -8,16 +8,16 @@ class UserService {
     }
 
     async create(userData) {
-        const hashedPassword = await bcrypt.hash(userData.password, 10);
-        const newUser = {
-            username: userData.username,
-            email: userData.email,
-            password_hash: hashedPassword,
-            address: userData.address,
-            phone_number: userData.phone_number,
-            is_active: true
-        };
-        return await this.userRepository.save(newUser);
+        try{
+            const hashedPassword = await bcrypt.hash(userData.password, 10);
+            const newUser = {
+                email: userData.email,
+                password_hash: hashedPassword,
+            };
+            await this.userRepository.save(newUser);
+        }catch(err){
+            throw new Error(err.message);
+        }
     }
 
     async getById(id) {
