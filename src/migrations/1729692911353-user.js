@@ -12,11 +12,7 @@ export default class User1729692911353 {
                     isPrimary: true,
                     isGenerated: true,
                 },
-                {
-                    name: 'username',
-                    type: 'varchar',
-                    isUnique: true,
-                },
+
                 {
                     name: 'email',
                     type: 'varchar',
@@ -27,20 +23,15 @@ export default class User1729692911353 {
                     type: 'varchar',
                 },
                 {
-                    name: 'address',
-                    type: 'varchar',
-                    isNullable: true,
-                },
-                {
-                    name: 'phone_number',
-                    type: 'varchar',
-                    isNullable: true,
-                },
-                {
-                    name: 'is_active',
+                    name: 'email_verified',
                     type: 'boolean',
-                    default: true,
+                    default: false,
                 },
+                {
+                    name: 'verfication_token',
+                    type: 'varchar',
+                },
+                
                 {
                     name: 'created_at',
                     type: 'timestamp',

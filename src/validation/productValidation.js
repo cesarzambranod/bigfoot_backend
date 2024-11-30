@@ -5,7 +5,7 @@ const ProductSchema = vine.compile(vine.object({
     description: vine.string(),
     price: vine.number().decimal([0, 2]),
     stock: vine.number().withoutDecimals(),
-    is_active: vine.boolean().optional(),
+    image_base64: vine.string(),
 }));
 
 export { ProductSchema };

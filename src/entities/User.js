@@ -9,11 +9,6 @@ const User = new EntitySchema({
       type: "int",
       generated: true
     },
-    username: {
-      type: "varchar",
-      length: 30,
-      unique: true,
-    },
     email: {
       type: "varchar",
       length: 70,
@@ -23,17 +18,12 @@ const User = new EntitySchema({
       type: "varchar",
       length: 255
     },
-    address: {
-      type: "varchar",
-      length: 100
-    },
-    phone_number: {
-      type: "varchar",
-      length: 15
-    },
-    is_active: {
+    email_verified: {
       type: "boolean",
-      default: true
+      default: false
+    },
+    verfication_token: {
+        type: "varchar"
     },
     created_at: {
       type: "timestamp",

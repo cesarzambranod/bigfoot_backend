@@ -25,6 +25,9 @@ const Product = new EntitySchema({
     stock: {
       type: "int"
     },
+    image_base64:{
+      type:'text'
+    }, 
     is_active: {
       type: "boolean",
       default: true

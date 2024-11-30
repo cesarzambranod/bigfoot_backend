@@ -1,15 +1,19 @@
 import { EntitySchema } from "typeorm";
 
 const Cart = new EntitySchema({
-  name: "Cart",
-  tableName: "carts",
+  name: "CartItem",
+  tableName: "cart_items",
   columns: {
     id: {
       primary: true,
       type: "int",
       generated: true
     },
-    user_id: {
+    cart_id: {
+      type: "int",
+      nullable: false
+    },
+    product_id: {
       type: "int",
       nullable: false
     },
@@ -28,10 +32,16 @@ const Cart = new EntitySchema({
     }
   },
   relations: {
-    user: {
+    cart: {
       type: "many-to-one",
-      target: "User",
-      joinColumn: { name: "user_id", referencedColumnName: "id" },
+      target: "Cart",
+      joinColumn: { name: "cart_id", referencedColumnName: "id" },
+      cascade: true,
+    },
+    product: {
+      type: "many-to-one",
+      target: "Product",
+      joinColumn: { name: "product_id", referencedColumnName: "id" },
       cascade: true,
     },
   },
