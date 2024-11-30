@@ -4,9 +4,7 @@ import productRoutes from './routes/product.routes.js';
 import cartRoutes from './routes/cart.routes.js';
 import orderRoutes from './routes/order.routes.js';
 import dataSource from './config/typeorm.config.js';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import ENVIROMENT from './config/enviroment.config.js';
 
 const app = express();
 app.use(express.json());
@@ -25,8 +23,8 @@ const startServer = async () => {
   .catch((err) => {
       console.error("Error during Data Source initialization", err)
   })
-  app.listen(process.env.PORT || 3000, () => {
-    console.log(`Server running on port ${process.env.PORT || 3000}`);
+  app.listen(ENVIROMENT.PORT || 3000, () => {
+    console.log(`Server running on port ${ENVIROMENT.PORT || 3000}`);
   });
 };
 
