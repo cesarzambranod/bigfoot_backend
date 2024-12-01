@@ -14,5 +14,6 @@ const ENVIROMENT = {
     PORT: process.env.PORT,
     EMAIL_USER: process.env.EMAIL_USER,
     EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
+    FRONTEND_URL: process.env.FRONTEND_URL,
 }
 export default ENVIROMENT;

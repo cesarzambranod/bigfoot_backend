@@ -13,7 +13,7 @@ const trasporterEmail = nodemailer.createTransport({
 })
 
 
-const verifyMail = async(email, redirectUrl)=> {
+const sendVerifyMail = async(email, redirectUrl)=> {
     return await trasporterEmail.sendMail({
         subject: 'Valida tu email',
         to: email,
@@ -23,4 +23,12 @@ const verifyMail = async(email, redirectUrl)=> {
         `
     })
 }
-export {verifyMail};
+
+const sendForgotPasswordMail = async(email, resetUrl) =>{
+    return await trasporterEmail.sendMail({
+        subject: 'Recuperar password',
+        to: user.email,
+        html:`<a href=${resetUrl}> Recuperar </a>`
+    })
+}
+export {sendVerifyMail, sendForgotPasswordMail};

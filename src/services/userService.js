@@ -2,7 +2,8 @@ import dataSource  from '../config/typeorm.config.js';
 import User  from '../entities/User.js';
 import bcrypt from 'bcryptjs';
 import authService from './authService.js';
-import {verifyMail} from '../helper/emailTransporter.helpers.js';
+import {sendVerifyMail, sendForgotPasswordMail} from '../helper/emailTransporter.helpers.js';
+import ENVIROMENT from '../config/enviroment.config.js';
 
 class UserService {
     constructor() {
@@ -19,11 +20,11 @@ class UserService {
                     password_hash: hashedPassword,
                 };
                 const result = await manager.getRepository(User).save(newUser);
-                const baseurl = 'http://localhost:3000/'
+                const baseurl = 'http://localhost:3000'
                 const token =  authService.generateToken(result.email);
                 const url = `/auth/verify-mail/${token}`
                 const redirectUrl = `${baseurl}${url}`
-                await verifyMail(result.email,redirectUrl);
+                await sendVerifyMail(result.email,redirectUrl);
                 return {email: result.email, token: token};   
 
             }catch(err){
@@ -58,6 +59,49 @@ class UserService {
     async show() {
         return await this.userRepository.find();
     }
+
+    async getUserByEmail(email) {
+        console.log('emailllll', email);
+        return await this.userRepository.findOneBy({
+            'email': email
+        });
+    }
+
+    async verifyMail(token){
+        const payload = authService.verifyToken(token);
+        const email_to_verify = payload.email;
+        const user = await this.getUserByEmail(email_to_verify)
+        user.email_verified = true
+        user.verfication_token = token
+        return await this.userRepository.save(user);
+    } 
+
+    async forgotPassword(email){
+        const user = await this.getUserByEmail(email);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const reset_password = authService.generateToken(user.email);
+        const resetUrl = `${ENVIROMENT.FRONTEND_URL}/auth/recovery-password/${reset_token}`
+        return await sendForgotPasswordMail(user.email,resetUrl);
+    }
+
+    async recoveryPassword(password, reset_token){
+        try {
+            const {email} = authService.verifyToken(reset_token);
+            const user = await this.getUserByEmail(email);
+            if (!user) {
+                throw new Error('User not found');
+            }
+            const hashedPassword = await bcrypt.hash(password, 10);
+            user.password_hash = hashedPassword;
+            return this.userRepository.save(user);
+            
+        } catch (error) {
+            throw new Error(error);
+        }
+
+    };
 }
 
 export default new UserService();
