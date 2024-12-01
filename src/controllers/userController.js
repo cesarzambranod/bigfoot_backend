@@ -5,8 +5,9 @@ class UserController {
     async create(req, res) {
         try{
             await UserSchema.validate(req.body);
-            await UserService.create(req.body);
-            return res.status(201).json('User created');
+            const result = await UserService.create(req.body);
+    
+            return res.status(201).json({email:result.email, token:result.token});
         }
         catch(error){
             return res.status(400).json({

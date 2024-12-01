@@ -1,6 +1,8 @@
 import dataSource  from '../config/typeorm.config.js';
 import User  from '../entities/User.js';
 import bcrypt from 'bcryptjs';
+import authService from './authService.js';
+import {verifyMail} from '../helper/emailTransporter.helpers.js';
 
 class UserService {
     constructor() {
@@ -8,16 +10,26 @@ class UserService {
     }
 
     async create(userData) {
-        try{
-            const hashedPassword = await bcrypt.hash(userData.password, 10);
-            const newUser = {
-                email: userData.email,
-                password_hash: hashedPassword,
-            };
-            await this.userRepository.save(newUser);
-        }catch(err){
-            throw new Error(err);
-        }
+        return await dataSource.transaction(async (manager) => {
+            try{
+                this.userRepository.set
+                const hashedPassword = await bcrypt.hash(userData.password, 10);
+                const newUser = {
+                    email: userData.email,
+                    password_hash: hashedPassword,
+                };
+                const result = await manager.getRepository(User).save(newUser);
+                const baseurl = 'http://localhost/'
+                const token =  authService.generateToken(result.email);
+                const url = `/auth/verify-mail/${token}`
+                const redirectUrl = `${baseurl}${url}`
+                await verifyMail(result.email,redirectUrl);
+                return {email: result.email, token: token};   
+
+            }catch(err){
+                throw new Error(err);
+            }
+        });
     }
 
     async getById(id) {

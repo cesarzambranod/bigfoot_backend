@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import ENVIROMENT from '../config/environment'
-
+import authService from '../services/authService'
 
 const authMiddleware = () => {
     return (req, res, next) => {
@@ -14,7 +14,7 @@ const authMiddleware = () => {
             if (!access_token) {
                 return res.json({ message: 'El token de autorizacion esta malformado' })
             }
-            const user_session_payload_decoded = jwt.verify(access_token, ENVIROMENT.SECRET_KEY)
+            const user_session_payload_decoded = authService.verifyToken(access_token);
             req.user = user_session_payload_decoded
             next()
         }

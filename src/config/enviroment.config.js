@@ -11,6 +11,8 @@ const ENVIROMENT = {
         DB_DATABASE: process.env.DB_DATABASE,
     },
     NODE_ENV: process.env.NODE_ENV,
-    PORT: process.env.PORT
+    PORT: process.env.PORT,
+    EMAIL_USER: process.env.EMAIL_USER,
+    EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
 }
 export default ENVIROMENT;
