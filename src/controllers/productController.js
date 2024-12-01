@@ -8,13 +8,8 @@ class ProductController {
             const product = await ProductService.create(req.body);
             return res.status(201).json(product);
         } catch (error) {
-            let errormessage = 'Internal Server Error'
-            if (error instanceof errors.E_VALIDATION_ERROR) {
-                errormessage = error.messages
-            }
-            console.log('errormessage', errormessage)
             return res.status(400).json({
-                message: errormessage,
+                message: error.messages,
                 error: error.message,
             });
         }
