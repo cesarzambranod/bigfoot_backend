@@ -19,7 +19,7 @@ class UserService {
                     password_hash: hashedPassword,
                 };
                 const result = await manager.getRepository(User).save(newUser);
-                const baseurl = 'http://localhost/'
+                const baseurl = 'http://localhost:3000/'
                 const token =  authService.generateToken(result.email);
                 const url = `/auth/verify-mail/${token}`
                 const redirectUrl = `${baseurl}${url}`
