@@ -3,7 +3,6 @@ import UserController from '../controllers/userController.js';
 
 const userRoutes = Router();
 
-userRoutes.post('/', UserController.create);
-userRoutes.get('/:id', UserController.getById);
+userRoutes.post('/register', UserController.create);
 
 export default userRoutes;
