@@ -65,6 +65,23 @@ class UserController {
             });
         }
     }
+
+    async login(req, res) {
+        try {
+            await UserSchema.validate(req.body);
+            const { email, password } = req.body
+            const result = await UserService.login(email, password);
+            if(!result){
+                throw new Error('Invalid email or password')
+            }
+            res.status(200).json({email:result.email, token:result.token});
+        } catch (error) {
+            return res.status(400).json({
+                message: error.messages,
+                error: error.message,
+            });
+        }
+    }
 }
 
 export default new UserController();

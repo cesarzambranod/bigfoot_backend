@@ -6,6 +6,7 @@ import {sendVerifyMail, sendForgotPasswordMail} from '../helper/emailTransporter
 import ENVIROMENT from '../config/enviroment.config.js';
 
 class UserService {
+    SALT = bcrypt.genSaltSync(10);
     constructor() {
         this.userRepository = dataSource.getRepository(User);
     }
@@ -14,7 +15,7 @@ class UserService {
         return await dataSource.transaction(async (manager) => {
             try{
                 this.userRepository.set
-                const hashedPassword = await bcrypt.hash(userData.password, 10);
+                const hashedPassword = bcrypt.hashSync(userData.password, this.SALT);
                 const newUser = {
                     email: userData.email,
                     password_hash: hashedPassword,
@@ -92,7 +93,7 @@ class UserService {
             if (!user) {
                 throw new Error('User not found');
             }
-            const hashedPassword = await bcrypt.hash(password, 10);
+            const hashedPassword = bcrypt.hashSync(password,this.SALT);
             user.password_hash = hashedPassword;
             return this.userRepository.save(user);
             
@@ -101,6 +102,23 @@ class UserService {
         }
 
     };
+    async login(email, password) {
+        try {
+            const user = await this.getUserByEmail(email);
+            if (!user) {
+                throw new Error('User not found');
+            }
+            const isMatch = bcrypt.compareSync(password, user.password_hash);
+            if (!isMatch) {
+                throw new Error('Invalid credentials');
+            }
+            const token = authService.generateToken(user.email);
+            return {email: user.email, token: token};
+        } catch (error) {
+            throw new Error(error);
+            
+        }
+    }
 }
 
 export default new UserService();

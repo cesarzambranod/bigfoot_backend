@@ -15,7 +15,6 @@ const User = new EntitySchema({
       unique: true,
     },
     password_hash: {
-      select: false,
       type: "varchar",
       length: 255
     },
