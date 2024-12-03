@@ -1,11 +1,9 @@
-import jwt from 'jsonwebtoken'
-import ENVIROMENT from '../config/environment'
-import authService from '../services/authService'
+import authService from '../services/authService.js'
 
 const authMiddleware = () => {
     return (req, res, next) => {
         try {
-            const auth_header = req.headers['Authorization']
+            const auth_header = req.headers['authorization']
             if (!auth_header) {
                 return res.json({ message: 'Falta el token de autorizacion' })
             }
@@ -19,7 +17,10 @@ const authMiddleware = () => {
             next()
         }
         catch (error) {
-            throw new Error(error.message);
+            return res.status(400).json({
+                message: error.messages,
+                error: error.message,
+            });
             
         }
     }
