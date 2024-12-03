@@ -14,7 +14,7 @@ class ProductService {
     }
 
     async delete(id) {
-        const product = await this.indexProduct(id);
+        const product = await this.index(id);
         if (!product) {
             throw new Error('Product not found');
         }
@@ -26,7 +26,7 @@ class ProductService {
     }
 
     async update(id, productData) {
-        const product = await this.indexProduct(id);
+        const product = await this.index(id);
         if (!product) {
             throw new Error('Product not found');
         }

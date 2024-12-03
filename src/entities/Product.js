@@ -28,10 +28,6 @@ const Product = new EntitySchema({
     image_base64:{
       type:'text'
     }, 
-    is_active: {
-      type: "boolean",
-      default: true
-    },
     created_at: {
       type: "timestamp",
       createDate: true
